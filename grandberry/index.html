@@ -1,0 +1,661 @@
+<title>Grandberry</title>
+<meta name="description" content="Grandberry: a tablet-first app for daily check-ins, family messages and voice memories, led by the older adult.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Young+Serif&display=swap">
+<style>
+/* Layout: editorial landing page around one live demo. Coral studio wall + pine chair from the hero photo set the palette. */
+:root{
+  --paper:#FFF7F4;
+  --surface:#FFFFFF;
+  --blush:#FBE4DF;
+  --coral:#E8706C;
+  --coral-deep:#B83A44;
+  --pine:#1E4A3B;
+  --pine-soft:#DCEBE3;
+  --sun:#F29A3E;
+  --ink:#2B1B1D;
+  --muted:#6E5A5C;
+  --line:#EBD6D1;
+  --on-accent:#FFFFFF;
+  --shadow:0 24px 60px -28px rgba(120,40,40,.35);
+  --display:"Young Serif",Georgia,"Times New Roman",serif;
+  --body:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --r-lg:28px; --r-md:18px; --r-sm:12px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#161112;--surface:#211919;--blush:#2E2020;--coral:#F08A86;--coral-deep:#F49A96;--pine:#7CC3A2;--pine-soft:#1F3229;--sun:#F5AE62;--ink:#F7ECEA;--muted:#C2ACAA;--line:#3A2B2B;--on-accent:#1A0F10;--shadow:0 24px 60px -28px rgba(0,0,0,.7);color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#161112;--surface:#211919;--blush:#2E2020;--coral:#F08A86;--coral-deep:#F49A96;--pine:#7CC3A2;--pine-soft:#1F3229;--sun:#F5AE62;--ink:#F7ECEA;--muted:#C2ACAA;--line:#3A2B2B;--on-accent:#1A0F10;--shadow:0 24px 60px -28px rgba(0,0,0,.7);color-scheme:dark}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+h1,h2,h3{font-family:var(--display);font-weight:400;line-height:1.08;text-wrap:balance;margin:0}
+p{margin:0}
+a{color:inherit}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--sun);outline-offset:3px;border-radius:8px}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:20px}
+.eyebrow{font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--coral-deep)}
+
+/* nav */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--paper) 86%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;gap:20px;padding-block:14px}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-size:1.4rem;text-decoration:none}
+.brand svg{width:34px;height:34px}
+.nav-links{display:flex;gap:22px;margin-left:auto;font-size:.95rem}
+.nav-links a{text-decoration:none;color:var(--muted)}
+.nav-links a:hover{color:var(--ink)}
+.chip{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;background:var(--pine-soft);color:var(--pine);font-size:.8rem;font-weight:700;white-space:nowrap}
+@media (max-width:820px){.nav-links{display:none}.nav .chip{margin-left:auto}}
+
+/* hero */
+.hero{padding-block:56px 72px}
+.hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+.hero h1{font-size:clamp(2.6rem,6vw,4.6rem);margin-block:16px 22px}
+.hero h1 em{font-style:normal;color:var(--coral-deep)}
+.lead{font-size:1.2rem;color:var(--muted);max-width:34ch}
+.cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:15px 24px;border-radius:999px;border:0;font-weight:700;text-decoration:none;font-size:1rem;transition:transform .15s ease,background .2s}
+.btn:hover{transform:translateY(-1px)}
+.btn-primary{background:var(--coral-deep);color:var(--on-accent)}
+.btn-ghost{background:transparent;border:2px solid var(--line);color:var(--ink)}
+.facts{display:flex;flex-wrap:wrap;gap:28px;margin-top:40px;padding-top:24px;border-top:1px solid var(--line)}
+.facts b{display:block;font-family:var(--display);font-size:1.8rem;font-weight:400;color:var(--pine)}
+.facts span{font-size:.9rem;color:var(--muted)}
+.hero-art{position:relative;max-width:460px;justify-self:center;width:100%}
+.arch{border-radius:240px 240px var(--r-lg) var(--r-lg);overflow:hidden;aspect-ratio:3/4;background:var(--coral);box-shadow:var(--shadow)}
+.arch img{width:100%;height:100%;object-fit:cover;object-position:50% 30%}
+.float{position:absolute;background:var(--surface);border-radius:var(--r-md);padding:14px 16px;box-shadow:var(--shadow);display:flex;gap:12px;align-items:center;font-size:.9rem;max-width:270px;border:1px solid var(--line)}
+.float small{display:block;color:var(--muted);font-size:.8rem}
+.float.f1{left:-36px;top:18%;animation:bob 6s ease-in-out infinite}
+.float.f2{right:-28px;bottom:12%;animation:bob 7s ease-in-out infinite reverse}
+.dot{width:12px;height:12px;border-radius:50%;background:var(--pine);flex:none;box-shadow:0 0 0 5px var(--pine-soft)}
+.ava{border-radius:50%;object-fit:cover;flex:none;background:var(--blush)}
+.wave{display:flex;gap:3px;align-items:center;height:22px}
+.wave i{width:3px;border-radius:3px;background:var(--coral-deep);display:block}
+@keyframes bob{50%{transform:translateY(-8px)}}
+@media (max-width:900px){.hero .wrap{grid-template-columns:1fr}.float.f1{left:0}.float.f2{right:0}}
+
+/* section shells */
+section{padding-block:72px}
+.sec-head{display:grid;gap:14px;max-width:640px;margin-bottom:40px}
+.sec-head h2{font-size:clamp(2rem,4.2vw,3rem)}
+.sec-head p{color:var(--muted);font-size:1.1rem}
+.band{background:var(--blush)}
+
+/* demo */
+.demo-grid>*{min-width:0}
+main{overflow-x:clip}
+.demo-grid{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:36px;align-items:start}
+@media (max-width:1000px){.demo-grid{grid-template-columns:1fr}.phone{justify-self:center}}
+.device-label{font-size:.85rem;color:var(--muted);margin-bottom:10px;display:flex;gap:8px;align-items:center}
+.device-label b{color:var(--ink)}
+.tablet{background:#1d1516;border-radius:36px;padding:16px;box-shadow:var(--shadow)}
+.screen{background:var(--paper);border-radius:22px;min-height:560px;overflow:hidden;display:flex;flex-direction:column;position:relative}
+.tablet .screen{font-size:1.08rem}
+.tablet.big .screen{font-size:1.28rem}
+.s-top{display:flex;align-items:center;gap:12px;padding:16px 22px;border-bottom:1px solid var(--line);background:var(--surface)}
+.s-top .back{border:0;background:var(--blush);border-radius:999px;padding:10px 18px;font-weight:700}
+.s-top .title{font-family:var(--display);font-size:1.25em}
+.s-top .right{margin-left:auto;display:flex;gap:8px}
+.s-body{padding:24px 26px 28px;flex:1;display:flex;flex-direction:column;gap:18px;min-width:0}
+.pill-btn{border:2px solid var(--line);background:var(--surface);border-radius:999px;padding:8px 16px;font-weight:700;font-size:.85em}
+.greet{display:flex;gap:18px;align-items:center}
+.greet img{width:78px;height:78px;object-position:50% 22%}
+.greet h3{font-size:2em}
+.greet p{color:var(--muted)}
+.tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+@media (max-width:620px){.tiles{grid-template-columns:1fr}}
+.tile{border:0;text-align:left;border-radius:var(--r-md);padding:20px;min-height:170px;display:flex;flex-direction:column;gap:8px;transition:transform .15s}
+.tile:hover{transform:translateY(-2px)}
+.tile .ic{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;background:rgba(255,255,255,.55)}
+.tile .ic svg{width:26px;height:26px}
+.tile b{font-family:var(--display);font-weight:400;font-size:1.3em;line-height:1.15}
+.tile span{font-size:.85em;opacity:.85}
+.t-check{background:var(--coral);color:#2b0d0e}
+.t-family{background:var(--pine);color:#F1FAF5}
+.t-family .ic{background:rgba(255,255,255,.15)}
+.t-mem{background:var(--sun);color:#2b1606}
+.badge{display:inline-block;background:var(--surface);color:var(--ink);border-radius:999px;padding:3px 10px;font-size:.75em;font-weight:700;align-self:flex-start;margin-top:auto}
+.home-foot{display:flex;flex-wrap:wrap;gap:10px;margin-top:auto;align-items:center}
+.home-foot .note{font-size:.8em;color:var(--muted);margin-left:auto}
+
+.progress{display:flex;gap:6px}
+.progress i{flex:1;height:8px;border-radius:8px;background:var(--line)}
+.progress i.on{background:var(--coral-deep)}
+.q{font-family:var(--display);font-size:1.9em;line-height:1.15}
+.qnum{color:var(--muted);font-size:.9em}
+.answers{display:grid;gap:12px}
+.ans{display:flex;align-items:center;gap:16px;border:2px solid var(--line);background:var(--surface);border-radius:var(--r-md);padding:18px 20px;font-size:1.05em;font-weight:700;text-align:left;min-height:66px}
+.ans:hover{border-color:var(--coral)}
+.ans.sel{border-color:var(--coral-deep);background:var(--blush)}
+.ans .em{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:var(--blush);font-family:var(--display);color:var(--coral-deep);flex:none}
+.review{display:grid;gap:8px}
+.rv{display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-sm)}
+.rv span{color:var(--muted);font-size:.9em;min-width:7.5em}
+.rv b{flex:1}
+.link-btn{border:0;background:none;color:var(--coral-deep);font-weight:700;text-decoration:underline;text-underline-offset:3px;padding:6px}
+.who{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:18px}
+.who h4{margin:0 0 4px;font-size:1.05em}
+.who p{color:var(--muted);font-size:.9em;margin-bottom:12px}
+.people{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px}
+.person>span:nth-child(2){min-width:0}
+.person{display:flex;align-items:center;gap:12px;border:2px solid var(--line);background:var(--paper);border-radius:var(--r-md);padding:10px 12px;text-align:left;font-weight:700}
+.person img{width:46px;height:46px}
+.person small{display:block;font-weight:400;color:var(--muted);font-size:.78em}
+.person[aria-pressed="true"]{border-color:var(--pine);background:var(--pine-soft)}
+.person .tick{margin-left:auto;width:24px;height:24px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;flex:none;font-size:.8em}
+.person[aria-pressed="true"] .tick{background:var(--pine);border-color:var(--pine);color:var(--surface)}
+.actions{display:flex;flex-wrap:wrap;gap:10px}
+.big-btn{border:0;border-radius:999px;padding:16px 26px;font-weight:700;font-size:1em;min-height:58px}
+.big-btn.go{background:var(--pine);color:var(--surface)}
+.big-btn.go:disabled{opacity:.4;cursor:not-allowed}
+.big-btn.soft{background:var(--blush)}
+.big-btn.plain{background:transparent;border:2px solid var(--line)}
+.notice{font-size:.85em;color:var(--muted);display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:var(--r-sm);background:var(--blush)}
+.success{display:grid;gap:16px;place-items:start}
+.success .ring{width:76px;height:76px;border-radius:50%;background:var(--pine-soft);display:grid;place-items:center;color:var(--pine)}
+.success h3{font-size:1.9em}
+.confirm{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:14px 16px;border:1px dashed var(--line);border-radius:var(--r-md);width:100%}
+.confirm span{margin-right:auto;font-weight:700}
+
+.msg{display:flex;gap:14px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:16px}
+.msg img{width:58px;height:58px}
+.msg .meta{font-size:.8em;color:var(--muted)}
+.msg p{margin-block:4px 10px}
+.player{display:flex;align-items:center;gap:12px}
+.play{width:48px;height:48px;border-radius:50%;border:0;background:var(--coral-deep);color:var(--on-accent);display:grid;place-items:center;flex:none}
+.bar{flex:1;height:8px;background:var(--line);border-radius:8px;overflow:hidden;min-width:60px}
+.bar i{display:block;height:100%;width:0;background:var(--coral-deep);transition:width .2s linear}
+.rec-zone{display:grid;place-items:center;gap:14px;padding:22px;border-radius:var(--r-lg);background:var(--surface);border:1px solid var(--line);text-align:center}
+.rec{width:116px;height:116px;border-radius:50%;border:0;background:var(--coral-deep);color:var(--on-accent);display:grid;place-items:center;font-weight:700;box-shadow:0 0 0 10px var(--blush)}
+.rec.live{animation:pulse 1.4s ease-in-out infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 22px var(--blush)}}
+.timer{font-family:var(--display);font-size:2em;font-variant-numeric:tabular-nums}
+.live-wave{display:flex;gap:4px;align-items:center;height:48px}
+.live-wave i{width:5px;border-radius:5px;background:var(--coral);animation:lv .9s ease-in-out infinite}
+@keyframes lv{50%{transform:scaleY(.3)}}
+.prompt-card{display:grid;grid-template-columns:150px minmax(0,1fr);gap:18px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden}
+.prompt-card img{height:100%;min-height:170px;object-fit:cover;object-position:50% 20%}
+.prompt-card div{padding:18px 18px 18px 0}
+.prompt-card h3{font-size:1.45em;margin-top:6px}
+@media (max-width:560px){.prompt-card{grid-template-columns:1fr}.prompt-card img{min-height:0;aspect-ratio:16/9}.prompt-card div{padding:0 18px 18px}}
+.transcript{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:16px;font-style:italic}
+.transcript textarea{width:100%;min-height:90px;font:inherit;font-style:normal;padding:10px;border-radius:var(--r-sm);border:2px solid var(--line);background:var(--paper);color:var(--ink)}
+.allow{font-size:.85em;color:var(--muted)}
+.help-list{display:grid;gap:10px}
+.help-list .ans{font-weight:400}
+
+/* phone */
+.phone{width:100%;max-width:330px;background:#1d1516;border-radius:44px;padding:12px;box-shadow:var(--shadow)}
+.phone .screen{min-height:600px;border-radius:34px;font-size:.92rem}
+.notch{width:110px;height:26px;background:#1d1516;border-radius:0 0 16px 16px;margin:0 auto}
+.p-head{display:flex;gap:12px;align-items:center;padding:10px 18px 14px}
+.p-head img{width:44px;height:44px;object-position:50% 25%}
+.p-head b{font-family:var(--display);font-weight:400;font-size:1.2rem;display:block}
+.p-head small{color:var(--muted)}
+.p-body{padding:0 14px 18px;display:grid;gap:12px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:14px}
+.card h5{margin:0 0 6px;font-size:.95rem;display:flex;align-items:center;gap:8px}
+.card p{color:var(--muted);font-size:.86rem}
+.st{display:inline-block;padding:3px 10px;border-radius:999px;font-size:.72rem;font-weight:700}
+.st.wait{background:var(--blush);color:var(--coral-deep)}
+.st.ok{background:var(--pine-soft);color:var(--pine)}
+.mini{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px}
+.mini div{background:var(--paper);border-radius:10px;padding:7px 9px;font-size:.78rem}
+.mini div span{display:block;color:var(--muted);font-size:.7rem}
+.opt{display:block;width:100%;text-align:left;border:2px solid var(--line);background:var(--paper);border-radius:var(--r-sm);padding:10px 12px;font-weight:700;font-size:.86rem;margin-top:8px}
+.opt:hover{border-color:var(--pine)}
+.p-body textarea{width:100%;min-height:80px;border-radius:var(--r-sm);border:2px solid var(--line);padding:10px;font:inherit;background:var(--paper);color:var(--ink)}
+.feed{display:flex;gap:10px;align-items:center;font-size:.84rem}
+.feed img{width:34px;height:34px}
+.feed small{display:block;color:var(--muted);font-size:.74rem}
+.demo-ctrl{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px;align-items:center}
+.demo-ctrl .hint{color:var(--muted);font-size:.9rem}
+
+/* pillars */
+.pillars{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+@media (max-width:900px){.pillars{grid-template-columns:1fr}}
+.pillar{background:var(--surface);border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--line);display:flex;flex-direction:column}
+.pillar img{aspect-ratio:4/3;object-fit:cover;width:100%}
+.pillar div{padding:22px 24px 26px;display:grid;gap:10px}
+.pillar h3{font-size:1.6rem}
+.pillar p{color:var(--muted)}
+.pillar .detail{font-size:.85rem;color:var(--pine);font-weight:700;border-top:1px solid var(--line);padding-top:12px}
+
+/* promises */
+.promise{display:grid;grid-template-columns:.9fr 1.1fr;gap:48px;align-items:center}
+@media (max-width:900px){.promise{grid-template-columns:1fr}}
+.promise-photo{border-radius:var(--r-lg);overflow:hidden;aspect-ratio:4/5;box-shadow:var(--shadow);max-width:100%}
+.promise-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 25%}
+.lists{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media (max-width:620px){.lists{grid-template-columns:1fr}}
+.lists h3{font-size:1.4rem;margin-bottom:14px}
+.lists ul{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.lists li{display:flex;gap:12px;font-size:.98rem}
+.lists li::before{content:"";width:22px;height:22px;flex:none;border-radius:50%;margin-top:2px;background:var(--pine-soft);border:5px solid var(--pine-soft);box-shadow:inset 0 0 0 20px var(--pine)}
+.lists .never li::before{background:var(--blush);border-color:var(--blush);box-shadow:inset 0 0 0 20px var(--coral-deep);border-radius:4px}
+
+/* trial */
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+@media (max-width:900px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.stat{background:var(--surface);border-radius:var(--r-md);padding:22px;border:1px solid var(--line)}
+.stat b{font-family:var(--display);font-weight:400;font-size:2.6rem;color:var(--coral-deep);display:block;line-height:1;font-variant-numeric:tabular-nums}
+.stat p{color:var(--muted);font-size:.9rem;margin-top:10px}
+.road{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin-top:48px;position:relative}
+@media (max-width:900px){.road{grid-template-columns:1fr 1fr;row-gap:28px}}
+@media (max-width:520px){.road{grid-template-columns:1fr}}
+.step{padding-right:18px;display:grid;gap:8px;align-content:start}
+.step .n{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-family:var(--display);background:var(--pine);color:var(--surface)}
+.step.now .n{background:var(--coral-deep)}
+.step h4{margin:6px 0 0;font-size:1.05rem}
+.step p{color:var(--muted);font-size:.9rem}
+.when{font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:700}
+
+/* closing */
+.closing{position:relative;border-radius:var(--r-lg);overflow:hidden;display:grid;grid-template-columns:1fr 1fr;background:var(--pine);color:#F1FAF5}
+.closing img{width:100%;height:100%;object-fit:cover;min-height:340px}
+.closing div{padding:48px;display:grid;gap:18px;align-content:center}
+.closing h2{font-size:clamp(2rem,4vw,3rem)}
+.closing p{opacity:.85}
+.roles{display:flex;flex-wrap:wrap;gap:8px}
+.roles span{border:1px solid rgba(241,250,245,.35);border-radius:999px;padding:6px 12px;font-size:.82rem}
+@media (max-width:820px){.closing{grid-template-columns:1fr}.closing div{padding:30px 24px}}
+footer{padding-block:36px 48px;color:var(--muted);font-size:.9rem}
+footer .wrap{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between}
+footer strong{color:var(--ink)}
+
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,140%);background:var(--ink);color:var(--paper);padding:14px 22px;border-radius:999px;font-weight:700;z-index:50;transition:transform .3s ease;max-width:calc(100% - 32px);text-align:center}
+.toast{visibility:hidden}
+.toast.show{transform:translate(-50%,0);visibility:visible}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+</style>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Grandberry home">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="23" r="13" fill="var(--coral-deep)"/><circle cx="15" cy="19" r="3" fill="var(--paper)" opacity=".55"/><path d="M20 10c-1-4 1-7 5-8-1 4-2 6-5 8z" fill="var(--pine)"/><path d="M20 10c-3-3-7-3-9-1 3 2 6 2 9 1z" fill="var(--pine)"/></svg>
+      Grandberry
+    </a>
+    <nav class="nav-links" aria-label="Sections">
+      <a href="#demo">Prototype</a><a href="#how">How it works</a><a href="#promises">Promises</a><a href="#trial">Trial plan</a>
+    </nav>
+    <span class="chip">Class prototype · v2</span>
+  </div>
+</header>
+
+<main id="top">
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">Tablet-first web app for older adults and families</span>
+      <h1>Stay close. <em>On your own terms.</em></h1>
+      <p class="lead">Grandberry gives older adults simple daily check-ins, family messages and voice memories. They decide what to share, and who sees it.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#demo">Try Rose's morning</a>
+        <a class="btn btn-ghost" href="#how">How it works</a>
+      </div>
+      <div class="facts">
+        <div><b>6</b><span>tap-only check-in questions</span></div>
+        <div><b>0</b><span>things shared automatically</span></div>
+        <div><b>100%</b><span>core features work without AI</span></div>
+      </div>
+    </div>
+    <div class="hero-art">
+      <div class="arch"><img src="img/rose.jpg" alt="Smiling older woman with white hair and coral sunglasses, sitting in a green chair and holding a phone"></div>
+      <div class="float f1"><span class="dot"></span><div><b>Rose shared her check-in</b><small>8:42 AM · with David and Maya</small></div></div>
+      <div class="float f2"><img class="ava" src="img/av-maya.jpg" alt="" width="44" height="44" style="width:44px;height:44px"><div><b>Maya sent a voice note</b><div class="wave" aria-hidden="true"></div><small>0:24 · for Grandma</small></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="demo">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Live prototype</span>
+      <h2>Tap through Rose's morning.</h2>
+      <p>Left is Rose's tablet. Right is her son David's phone. Share something on the tablet and watch it reach David, only if Rose says so.</p>
+    </div>
+    <div class="demo-grid">
+      <div>
+        <div class="device-label"><b>Rose, 78</b> · iPad at home</div>
+        <div class="tablet" id="tablet"><div class="screen" id="tScreen"></div></div>
+      </div>
+      <div class="phone-col">
+        <div class="device-label"><b>David, her son</b> · phone</div>
+        <div class="phone"><div class="screen"><div class="notch"></div><div id="pScreen"></div></div></div>
+      </div>
+    </div>
+    <div class="demo-ctrl">
+      <button class="btn btn-ghost" id="missBtn" type="button">Simulate a missed check-in</button>
+      <button class="btn btn-ghost" id="resetBtn" type="button">Reset demo</button>
+      <span class="hint">Demo data stays in this browser tab. Nothing is sent anywhere.</span>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">How it works</span>
+      <h2>Three small habits. One closer family.</h2>
+      <p>No feeds. No scores. Just a few warm moments a day, with big buttons and plain words.</p>
+    </div>
+    <div class="pillars">
+      <article class="pillar">
+        <img src="img/joe.jpg" alt="Laughing older man in glasses and a denim shirt, tapping on his phone" style="object-position:50% 30%">
+        <div><h3>Morning check-in</h3><p>Six short questions. Sleep, mood, comfort, water, breakfast, usual medicine. One tap each, no typing.</p><span class="detail">Rose reviews every answer before anyone sees it.</span></div>
+      </article>
+      <article class="pillar">
+        <img src="img/family.jpg" alt="Grandparents hugging their grandson and granddaughter on a sofa">
+        <div><h3>Family Corner</h3><p>Short notes and voice messages from the family. Rose replies with one big, clearly labelled record button.</p><span class="detail">She sees the exact names of who will hear her reply.</span></div>
+      </article>
+      <article class="pillar">
+        <img src="img/memory.jpg" alt="Elderly woman with curly grey hair smiling by a sunlit window, hands folded" style="object-position:50% 30%">
+        <div><h3>Memory Moments</h3><p>A gentle prompt invites a story. Her voice is saved as a family memory, to keep for the grandkids.</p><span class="detail">Transcripts are optional drafts she can fix or remove.</span></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="promises">
+  <div class="wrap promise">
+    <div class="promise-photo"><img src="img/david.jpg" alt="Smiling older man with a grey beard and glasses, reading his phone in a cosy armchair"></div>
+    <div>
+      <div class="sec-head" style="margin-bottom:28px">
+        <span class="eyebrow">Our promises</span>
+        <h2>Connection, not surveillance.</h2>
+        <p>A missed check-in can mean many things. Maybe Rose just went for a walk. Grandberry helps the family reach out kindly, and never raises an alarm.</p>
+      </div>
+      <div class="lists">
+        <div><h3>Grandberry will</h3><ul>
+          <li>Keep everything private until its owner chooses to share</li>
+          <li>Show exact names before anything is shared</li>
+          <li>Let older adults edit, delete or take back what they shared</li>
+          <li>Keep working when AI is slow or switched off</li>
+        </ul></div>
+        <div class="never"><h3>Grandberry will never</h3><ul>
+          <li>Diagnose, give medical advice or call emergency services</li>
+          <li>Treat a missed check-in as an emergency</li>
+          <li>Sell family data or show ads</li>
+          <li>Use family stories to train general AI models</li>
+        </ul></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="trial">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Trial plan</span>
+      <h2>Small, careful, and honest about results.</h2>
+      <p>We count success by how people feel, not by how often they tap. These are the bars the first trial has to clear.</p>
+    </div>
+    <div class="stats">
+      <div class="stat"><b>10–20</b><p>families in the first free trial, with 20–60 invited relatives</p></div>
+      <div class="stat"><b>70%</b><p>of older adults and of family members should feel more connected, and not intruded on</p></div>
+      <div class="stat"><b>80%</b><p>of older adults should find check-ins and sharing controls easy to understand</p></div>
+      <div class="stat"><b>&lt;10%</b><p>may report feeling distressed, confused or watched, or the trial does not count as a success</p></div>
+    </div>
+    <div class="road">
+      <div class="step now"><span class="n">1</span><span class="when">Now</span><h4>Shared-link prototype</h4><p>Works on tablets and phones. Demo data lives only in the browser.</p></div>
+      <div class="step"><span class="n">2</span><span class="when">Trial</span><h4>10–20 real families</h4><p>Free, funded by grants or partners. Weekly review of warning signs.</p></div>
+      <div class="step"><span class="n">3</span><span class="when">6–12 months</span><h4>50–100 families</h4><p>Only if the trial is safe and people find it useful.</p></div>
+      <div class="step"><span class="n">4</span><span class="when">Launch</span><h4>Family plan</h4><p>Optional subscription paid by a relative, plus sponsored free places.</p></div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="closing">
+      <img src="img/family.jpg" alt="Grandparents and grandchildren smiling together">
+      <div>
+        <span class="eyebrow" style="color:var(--sun)">Why we are building this</span>
+        <h2>Every voice is worth keeping.</h2>
+        <p>Grandberry started with a simple feeling. Everyday contact with ageing parents was slipping away, and so were their stories. We want to help families hold on, gently.</p>
+        <div class="roles" aria-label="Team roles needed"><span>UX/UI Designer</span><span>Frontend Engineer</span><span>Backend Engineer</span><span>QA Tester</span><span>Trust and Safety Specialist</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span><strong>Grandberry</strong> is not medical monitoring, diagnosis or an emergency service. If someone feels unsafe or very unwell, call local emergency services or a trusted person.</span>
+    <span>Class prototype · Discovery brief v2 · 9 Oct 2026</span>
+  </div>
+</footer>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+const FAMILY = {
+  david:{name:'David', rel:'Son', img:'img/av-david.jpg', pos:'50% 50%'},
+  joe:{name:'Joe', rel:'Husband', img:'img/av-joe.jpg', pos:'50% 50%'},
+  maya:{name:'Maya', rel:'Granddaughter', img:'img/av-maya.jpg', pos:'50% 50%'},
+  leo:{name:'Leo', rel:'Grandson', img:'img/av-leo.jpg', pos:'50% 50%'}
+};
+const QUESTIONS = [
+  {key:'Sleep', q:'How did you sleep last night?', a:['Slept well','Okay','Not so well']},
+  {key:'Mood', q:'How are you feeling this morning?', a:['Happy','Calm','A bit low']},
+  {key:'Comfort', q:'How comfortable do you feel?', a:['Comfortable','A little sore','Uncomfortable']},
+  {key:'Water', q:'Have you had a glass of water?', a:['Yes','Not yet']},
+  {key:'Breakfast', q:'Have you had breakfast?', a:['Yes','Not yet','Skipping today']},
+  {key:'Medicine', q:'Did you take your usual morning medicine?', a:['Yes','Not yet','Not today','Prefer not to say']}
+];
+const fresh = () => ({
+  screen:'home', big:false, qi:0, answers:{}, editing:false,
+  share:{}, checkin:null, missed:false,
+  rec:{mode:'idle', secs:0, target:null, transcribe:null, transcript:'', editT:false},
+  notes:[{from:'maya', text:'Hi Grandma! I baked your lemon cake for school today. Everyone asked for the recipe.', time:'7:55 AM', voice:24}],
+  memories:[], replies:[], davidDraft:null, allowance:10
+});
+let S = fresh();
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const ava = (k,size) => `<img class="ava" src="${FAMILY[k].img}" alt="" style="width:${size}px;height:${size}px;object-position:${FAMILY[k].pos}">`;
+const names = obj => { const n = Object.keys(obj).filter(k=>obj[k]).map(k=>FAMILY[k].name); return n.length<2 ? n.join('') : n.slice(0,-1).join(', ')+' and '+n[n.length-1]; };
+const now = () => new Date().toLocaleTimeString([], {hour:'numeric', minute:'2-digit'});
+const ICON = {
+  check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v3M12 20v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M1 12h3M20 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>',
+  fam:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21.2l8.8-8.8a5.5 5.5 0 0 0 0-7.8z"/></svg>',
+  mic:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0M12 17v5M8 22h8"/></svg>',
+  play:'<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M7 4v16l13-8z"/></svg>',
+  pause:'<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg>',
+  ok:'<svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>'
+};
+
+function toast(msg){ const t=$('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove('show'),2600); }
+function go(screen){ S.screen=screen; stopTimers(); render(); }
+
+/* ---------- tablet ---------- */
+function top(title, backTo){
+  return `<div class="s-top">${backTo?`<button class="back" data-go="${backTo}">‹ Home</button>`:''}<span class="title">${title}</span><div class="right"><button class="pill-btn" data-act="size">${S.big?'Normal text':'Bigger text'}</button><button class="pill-btn" data-go="help">Help</button></div></div>`;
+}
+function whoBlock(kind){
+  const people = Object.keys(FAMILY).map(k=>`<button class="person" type="button" data-pick="${k}" aria-pressed="${!!S.share[k]}">${ava(k,46)}<span>${FAMILY[k].name}<small>${FAMILY[k].rel}</small></span><span class="tick">${S.share[k]?'✓':''}</span></button>`).join('');
+  const any = Object.values(S.share).some(Boolean);
+  return `<div class="who"><h4>Who can see this ${kind}?</h4><p>Nothing is shared until you choose. Tap each person you want to include.</p><div class="people">${people}</div></div>
+  <div class="actions"><button class="big-btn go" data-act="share" ${any?'':'disabled'}>${any?'Share with '+names(S.share):'Choose who to share with'}</button><button class="big-btn soft" data-act="goback">Go back</button><button class="big-btn plain" data-act="cancel">Cancel</button></div>`;
+}
+function home(){
+  const c = S.checkin ? `Shared at ${S.checkin.time}` : 'Ready when you are';
+  const unread = S.notes.length;
+  return top('Grandberry') + `<div class="s-body">
+    <div class="greet"><img class="ava" src="img/av-rose.jpg" alt="Rose"><div><h3>Good morning, Rose</h3><p>${new Date().toLocaleDateString([], {weekday:'long', day:'numeric', month:'long'})}</p></div></div>
+    <div class="tiles">
+      <button class="tile t-check" data-go="checkin"><span class="ic">${ICON.check}</span><b>Morning check-in</b><span>Six quick taps</span><span class="badge">${c}</span></button>
+      <button class="tile t-family" data-go="family"><span class="ic">${ICON.fam}</span><b>Family Corner</b><span>Notes and voices</span><span class="badge">${unread} new from family</span></button>
+      <button class="tile t-mem" data-go="memory"><span class="ic">${ICON.mic}</span><b>Memory Moment</b><span>Tell one small story</span><span class="badge">${S.memories.length?S.memories.length+' saved':'Today\'s prompt'}</span></button>
+    </div>
+    <div class="home-foot"><span class="note">Check-ins are family updates, not medical advice.</span></div>
+  </div>`;
+}
+function checkin(){
+  if (S.checkin && S.screen==='checkin') return doneScreen();
+  if (S.qi >= QUESTIONS.length) return reviewScreen();
+  const q = QUESTIONS[S.qi];
+  const bars = QUESTIONS.map((_,i)=>`<i class="${i<=S.qi?'on':''}"></i>`).join('');
+  const letters='ABCD';
+  return top('Morning check-in','home') + `<div class="s-body">
+    <div class="progress" aria-hidden="true">${bars}</div>
+    <span class="qnum">Question ${S.qi+1} of ${QUESTIONS.length}</span>
+    <div class="q">${q.q}</div>
+    <div class="answers">${q.a.map((a,i)=>`<button class="ans ${S.answers[q.key]===a?'sel':''}" data-ans="${esc(a)}"><span class="em">${letters[i]}</span>${a}</button>`).join('')}</div>
+    <div class="actions" style="margin-top:auto">${S.qi>0?'<button class="big-btn soft" data-act="prevq">‹ Previous question</button>':''}</div>
+  </div>`;
+}
+function reviewScreen(){
+  return top('Review your answers','home') + `<div class="s-body">
+    <div class="q" style="font-size:1.5em">Is everything correct?</div>
+    <div class="review">${QUESTIONS.map((q,i)=>`<div class="rv"><span>${q.key}</span><b>${S.answers[q.key]}</b><button class="link-btn" data-editq="${i}">Edit</button></div>`).join('')}</div>
+    ${whoBlock('check-in')}
+    <div class="notice">This is a family update, not medical advice. If you feel unwell or unsafe, call a trusted person or local emergency services.</div>
+  </div>`;
+}
+function doneScreen(){
+  return top('Check-in shared','home') + `<div class="s-body"><div class="success">
+    <span class="ring">${ICON.ok}</span>
+    <h3>Thank you, Rose.</h3>
+    <p>Your morning update is with <b>${names(S.checkin.to)}</b>. Shared at ${S.checkin.time}. Nobody else can see it.</p>
+    <div class="confirm"><span>Is this correct?</span><button class="big-btn go" data-go="home">Yes</button><button class="big-btn soft" data-act="editcheckin">Edit</button><button class="big-btn plain" data-act="removecheckin">Remove</button></div>
+  </div></div>`;
+}
+function recorder(kind){
+  const r = S.rec;
+  if (r.mode==='recording') return `<div class="rec-zone"><div class="live-wave" aria-hidden="true">${Array.from({length:18},(_,i)=>`<i style="height:${12+((i*37)%34)}px;animation-delay:${(i%6)*.12}s"></i>`).join('')}</div><span class="timer" id="recTimer">0:${String(r.secs).padStart(2,'0')}</span><button class="rec live" data-act="stoprec">Stop</button><span class="allow">Recording. Tap Stop when you are done.</span></div>`;
+  if (r.mode==='review') {
+    let t='';
+    if (kind==='memory') {
+      if (r.transcribe===null) t = `<div class="who"><h4>Make a written copy?</h4><p>Optional. A helper turns your voice into text so family can read it too. You check it first. Uses 1 of your ${S.allowance} transcriptions this month.</p><div class="actions"><button class="big-btn go" data-act="tyes">Yes, make a copy</button><button class="big-btn soft" data-act="tno">No thanks</button></div></div>`;
+      else if (r.transcribe) t = `<div class="transcript">${r.editT?`<label for="tEdit" class="allow">Fix any words</label><textarea id="tEdit">${esc(r.transcript)}</textarea><div class="actions" style="margin-top:10px"><button class="big-btn go" data-act="tsave">Save words</button></div>`:`"${esc(r.transcript)}"<div class="confirm" style="margin-top:12px;font-style:normal"><span>Is this correct?</span><button class="big-btn go" data-act="tok">Yes</button><button class="big-btn soft" data-act="tedit">Edit</button><button class="big-btn plain" data-act="tremove">Remove</button></div>`}<div class="allow" style="font-style:normal;margin-top:8px">Draft. Only you can see it until you share.</div></div>`;
+    }
+    return `<div class="rec-zone"><div class="player" style="width:100%;max-width:420px"><button class="play" data-act="playmine" aria-label="Play your recording">${ICON.play}</button><div class="bar"><i id="mineBar"></i></div><span>0:${String(r.secs).padStart(2,'0')}</span></div><div class="actions"><button class="big-btn soft" data-act="rerec">Record again</button><button class="big-btn plain" data-act="delrec">Delete</button></div></div>${t}${(kind!=='memory'||r.transcribe!==null)&&!r.editT?whoBlock(kind==='memory'?'memory':'reply'):''}`;
+  }
+  return `<div class="rec-zone"><button class="rec" data-act="startrec" aria-label="Start recording">${ICON.mic.replace('<svg','<svg width="40" height="40"')}</button><b style="font-size:1.2em">Record</b><span class="allow">Tap once to start. You can listen, redo or delete before sharing.</span></div>`;
+}
+function family(){
+  const r=S.rec;
+  if (r.mode==='shared' && r.target==='family') return top('Family Corner','home')+`<div class="s-body"><div class="success"><span class="ring">${ICON.ok}</span><h3>Your voice is on its way.</h3><p>Shared with <b>${names(r.to)}</b>. You can take it back any time.</p><div class="actions"><button class="big-btn go" data-act="recdone">Back to Family Corner</button><button class="big-btn plain" data-act="unshare">Take it back</button></div></div></div>`;
+  const notes = S.notes.map((n,i)=>`<div class="msg">${ava(n.from,58)}<div style="flex:1;min-width:0"><b>${FAMILY[n.from].name}</b> <span class="meta">· ${FAMILY[n.from].rel} · ${n.time}</span><p>${esc(n.text)}</p>${n.voice?`<div class="player"><button class="play" data-play="${i}" aria-label="Play voice note">${ICON.play}</button><div class="bar"><i id="nb${i}"></i></div><span class="meta">0:${n.voice}</span></div>`:''}</div></div>`).join('');
+  return top('Family Corner','home') + `<div class="s-body">${notes}
+    <div style="font-family:var(--display);font-size:1.3em">Reply with your voice</div>
+    ${r.target==='family'||r.mode==='idle'?recorder('family'):recorder('family')}
+  </div>`;
+}
+function memory(){
+  const r=S.rec;
+  if (r.mode==='shared' && r.target==='memory') return top('Memory Moment','home')+`<div class="s-body"><div class="success"><span class="ring">${ICON.ok}</span><h3>A memory, kept.</h3><p>Saved as a family memory for <b>${names(r.to)}</b>. Shared ${now()}.</p><div class="actions"><button class="big-btn go" data-act="recdone">Done</button><button class="big-btn plain" data-act="unshare">Take it back</button></div></div></div>`;
+  return top('Memory Moment','home') + `<div class="s-body">
+    <div class="prompt-card"><img src="img/memory.jpg" alt=""><div><span class="eyebrow">Today's gentle prompt</span><h3>What song did you dance to when you were young?</h3><p class="allow" style="margin-top:8px">Skip any prompt you like. There is no wrong answer.</p></div></div>
+    ${recorder('memory')}
+  </div>`;
+}
+function help(){
+  return top('Help and safety','home') + `<div class="s-body">
+    <div class="notice" style="font-size:1em"><div><b>Grandberry is not an emergency service.</b><br>If you feel unsafe, very unwell or need urgent help, call local emergency services or a trusted person directly.</div></div>
+    <p>Check-ins are friendly family updates. They are not medical advice and nobody is watching you through them. You always choose who sees what.</p>
+    <div style="font-family:var(--display);font-size:1.3em">Report a problem</div>
+    <div class="help-list">${['This is wrong','I did not mean to share this','This feels confusing','Something else'].map(o=>`<button class="ans" data-report="${o}">${o}</button>`).join('')}</div>
+    <p class="allow">Reports go to the Grandberry support team, not to your family. We ask before sending anything.</p>
+  </div>`;
+}
+function renderTablet(){
+  $('tablet').classList.toggle('big', S.big);
+  const map={home,checkin,family,memory,help};
+  $('tScreen').innerHTML = map[S.screen]();
+}
+
+/* ---------- phone ---------- */
+function renderPhone(){
+  let status;
+  if (S.checkin && S.checkin.to.david) {
+    status = `<div class="card"><h5>Morning check-in <span class="st ok">Shared ${S.checkin.time}</span></h5><p>Rose chose to share this with you.</p><div class="mini">${QUESTIONS.map(q=>`<div><span>${q.key}</span>${esc(S.checkin.answers[q.key])}</div>`).join('')}</div></div>`;
+  } else if (S.missed) {
+    if (S.davidDraft!==null) status = `<div class="card"><h5>Send Mum a kind note</h5><label for="dDraft" class="allow" style="font-size:.78rem;color:var(--muted)">Suggested wording. Change anything.</label><textarea id="dDraft">${esc(S.davidDraft)}</textarea><button class="opt" data-pact="send" style="background:var(--pine);color:var(--surface);border-color:var(--pine)">Send to Rose</button><button class="opt" data-pact="canceldraft">Cancel</button></div>`;
+    else status = `<div class="card"><h5>Morning check-in <span class="st wait">Not yet today</span></h5><p>Rose usually checks in by 9:00 AM. This can mean many things, like a slow morning or a walk. Would you like to:</p><button class="opt" data-pact="draft">Send a kind message</button><button class="opt" data-pact="call">Call Rose</button><button class="opt" data-pact="wait">Wait and check later</button></div>`;
+  } else {
+    status = `<div class="card"><h5>Morning check-in <span class="st wait">Nothing yet</span></h5><p>${S.checkin?'Rose shared today\'s check-in with other family members.':'Rose usually checks in around 9:00 AM. No need to do anything.'}</p></div>`;
+  }
+  const feed = [];
+  (S.sent||[]).forEach(x=>feed.push(`<div class="feed">${ava('david',34)}<div>You sent Rose a kind note<small>${x}</small></div></div>`));
+  S.replies.forEach(x=>feed.push(`<div class="feed"><img class="ava" src="img/av-rose.jpg" alt=""><div>Rose sent you a voice reply<small>${x.time} · 0:${String(x.secs).padStart(2,'0')}</small></div></div>`));
+  S.memories.filter(x=>!x.hidden).forEach(x=>feed.push(`<div class="feed"><img class="ava" src="img/av-rose.jpg" alt=""><div>New family memory from Rose<small>${x.time}${x.transcript?' · with written copy':''}</small></div></div>`));
+  feed.push(`<div class="feed">${ava('maya',34)}<div>Maya sent Grandma a voice note<small>7:55 AM</small></div></div>`);
+  $('pScreen').innerHTML = `<div class="p-head"><img class="ava" src="img/av-rose.jpg" alt=""><div><b>Mum · Rose</b><small>Your family space</small></div></div>
+    <div class="p-body">${status}<div class="card"><h5>Recent</h5><div style="display:grid;gap:10px">${feed.join('')}</div></div>
+    <p style="font-size:.74rem;color:var(--muted);text-align:center">Grandberry is not an emergency service.</p></div>`;
+}
+function render(){ renderTablet(); renderPhone(); paintWaves(); }
+
+/* ---------- timers ---------- */
+let recT=null, playT=null;
+function stopTimers(){ clearInterval(recT); clearInterval(playT); recT=playT=null; }
+function fakePlay(barId, secs, btn){
+  clearInterval(playT); const bar=$(barId); if(!bar) return; let p=0; const step=100/(Math.min(secs,8)*10);
+  if (btn) btn.innerHTML=ICON.pause;
+  playT=setInterval(()=>{ p+=step; bar.style.width=Math.min(p,100)+'%'; if(p>=100){clearInterval(playT); if(btn) btn.innerHTML=ICON.play; setTimeout(()=>{bar.style.width='0'},600);} },100);
+}
+
+/* ---------- events ---------- */
+document.addEventListener('click', e=>{
+  const b = e.target.closest('button'); if(!b) return;
+  const d = b.dataset;
+  if (d.go){ if(d.go==='checkin' && !S.checkin){S.qi=0;} if(['family','memory'].includes(d.go) && S.rec.target!==d.go){S.rec={mode:'idle',secs:0,target:null,transcribe:null,transcript:'',editT:false}; S.share={};} go(d.go); return; }
+  if (d.ans){ const q=QUESTIONS[S.qi]; S.answers[q.key]=d.ans; S.qi = S.editing ? QUESTIONS.length : S.qi+1; S.editing=false; renderTablet(); return; }
+  if (d.editq){ S.qi=+d.editq; S.editing=true; renderTablet(); return; }
+  if (d.pick){ S.share[d.pick]=!S.share[d.pick]; renderTablet(); return; }
+  if (d.play){ fakePlay('nb'+d.play, S.notes[+d.play].voice, b); return; }
+  if (d.report){ toast('Thanks. Before sending, we will show you exactly what goes to support.'); return; }
+  if (d.pact){ phoneAct(d.pact); return; }
+  const a=d.act; if(!a) return;
+  const r=S.rec;
+  switch(a){
+    case 'size': S.big=!S.big; renderTablet(); break;
+    case 'prevq': S.qi=Math.max(0,S.qi-1); renderTablet(); break;
+    case 'share':
+      if (S.screen==='checkin'){ S.checkin={to:{...S.share}, answers:{...S.answers}, time:now()}; S.missed=false; S.davidDraft=null; toast('Shared with '+names(S.share)); }
+      else { r.to={...S.share}; r.mode='shared'; const item={time:now(), secs:r.secs, transcript:r.transcribe?r.transcript:''}; if(r.target==='family'){ if(r.to.david) S.replies.push(item);} else { if(r.to.david) S.memories.push(item); else S.memories.push({...item,hidden:true}); if(r.transcribe) S.allowance--; } toast('Shared with '+names(S.share)); }
+      S.share={}; render(); break;
+    case 'goback':
+      if (S.screen==='checkin'){ S.qi=QUESTIONS.length-1; S.editing=false; } else { r.mode='review'; }
+      renderTablet(); break;
+    case 'cancel': S.share={}; if(S.screen==='checkin'){S.answers={};S.qi=0;} S.rec={mode:'idle',secs:0,target:null,transcribe:null,transcript:'',editT:false}; toast('Cancelled. Nothing was shared.'); go('home'); break;
+    case 'editcheckin': S.checkin=null; S.qi=QUESTIONS.length; S.share={}; render(); break;
+    case 'removecheckin': S.checkin=null; S.answers={}; S.qi=0; toast('Removed. Your family can no longer see it.'); go('home'); break;
+    case 'startrec': r.mode='recording'; r.secs=0; r.target=S.screen; r.transcribe=null; renderTablet(); recT=setInterval(()=>{ r.secs=Math.min(59,r.secs+1); const t=$('recTimer'); if(t) t.textContent='0:'+String(r.secs).padStart(2,'0'); },1000); break;
+    case 'stoprec': clearInterval(recT); r.secs=Math.max(r.secs,3); r.mode='review'; renderTablet(); break;
+    case 'rerec': r.mode='idle'; r.transcribe=null; renderTablet(); break;
+    case 'delrec': S.rec={mode:'idle',secs:0,target:null,transcribe:null,transcript:'',editT:false}; S.share={}; toast('Deleted. It was never shared.'); renderTablet(); break;
+    case 'playmine': fakePlay('mineBar', r.secs, b); break;
+    case 'tyes': r.transcribe=true; r.transcript='We danced to Moon River in my aunt\'s garden. Your grandfather stepped on my feet the whole time, and I did not mind one bit.'; renderTablet(); break;
+    case 'tno': r.transcribe=false; renderTablet(); break;
+    case 'tedit': r.editT=true; renderTablet(); break;
+    case 'tsave': r.transcript=$('tEdit').value; r.editT=false; renderTablet(); break;
+    case 'tok': toast('Thanks. Your words are saved with the recording.'); break;
+    case 'tremove': r.transcribe=false; r.transcript=''; renderTablet(); break;
+    case 'recdone': S.rec={mode:'idle',secs:0,target:null,transcribe:null,transcript:'',editT:false}; renderTablet(); break;
+    case 'unshare': if(r.target==='family') S.replies.pop(); else S.memories.pop(); S.rec={mode:'idle',secs:0,target:null,transcribe:null,transcript:'',editT:false}; toast('Taken back. Access removed.'); render(); break;
+  }
+});
+function phoneAct(a){
+  if (a==='draft'){ S.davidDraft='Morning, Mum! Just thinking of you. No rush at all. Call me whenever you like.'; }
+  if (a==='canceldraft'){ S.davidDraft=null; }
+  if (a==='call'){ toast('Calling happens in your own phone app. Grandberry does not place calls.'); return; }
+  if (a==='wait'){ toast('Okay. We will not send any alerts.'); return; }
+  if (a==='send'){ const v=($('dDraft')||{}).value||S.davidDraft; S.notes.unshift({from:'david', text:v, time:now()}); (S.sent=S.sent||[]).unshift(now()); S.davidDraft=null; S.missed=false; toast('Sent to Rose\'s Family Corner'); render(); return; }
+  renderPhone();
+}
+$('missBtn').addEventListener('click',()=>{ if(S.checkin){ toast('Rose already checked in today. Reset the demo first.'); return; } S.missed=true; renderPhone(); toast('It is 10:15 AM. No check-in yet.'); });
+$('resetBtn').addEventListener('click',()=>{ stopTimers(); S=fresh(); render(); toast('Demo reset'); });
+
+function paintWaves(){ document.querySelectorAll('.wave').forEach(w=>{ if(w.children.length) return; w.innerHTML=Array.from({length:22},(_,i)=>`<i style="height:${5+((i*53)%17)}px"></i>`).join(''); }); }
+render();
+})();
+</script>
